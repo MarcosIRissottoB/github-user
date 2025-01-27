@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { GithubUserArraySchema } from '@/schemas/github';
 import { ZodError } from 'zod';
 import { GithubUser } from '@/types/github';
-import { GithubUserArraySchema } from '@/validate/github';
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.github.com';
@@ -17,20 +17,23 @@ const useFetchUsers = () => {
     const fetchUsers = async () => {
       try {
         const { data } = await axios.get(`${API_BASE_URL}${ENDPOINT_USERS}`);
-        console.log(data);
-        const invalidData = {
-          id: 'not-a-number', // Tipo incorrecto
-          login: 'user123',
-        };
-        const validatedDataFromGithub =
-          GithubUserArraySchema.parse(invalidData);
-
-        setUsers(validatedDataFromGithub as GithubUser[]);
+        const validatedUsers = GithubUserArraySchema.parse(data);
+        setUsers(validatedUsers);
+        setError(null);
       } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else if (err instanceof ZodError) {
-          setError('Error de validación en los datos de la API.'); // Cuando los datos no cumplen con el esquema
+        if (err instanceof ZodError) {
+          setError(
+            `Error de validación: ${err.errors
+              .map((issue) => {
+                const location = issue.path.length
+                  ? `${issue.path.join(' > ')}`
+                  : 'respuesta completa';
+                return `${location}: ${issue.message}`;
+              })
+              .join(', ')}`
+          );
+        } else if (err instanceof Error) {
+          setError(`Error al obtener los usuarios: ${err.message}`);
         } else {
           setError('Error desconocido.');
         }
