@@ -14,8 +14,6 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
-  console.log('This code needs formatting');
-
   return (
     <>
       <Head>
