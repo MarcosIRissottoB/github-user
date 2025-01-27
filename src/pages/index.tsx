@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import useFetchUsers from '../hooks/useFetchUsers';
 
 const HomePage: React.FC = () => {
@@ -35,7 +36,9 @@ const HomePage: React.FC = () => {
         {users.map((user) => (
           <li key={user.id}>
             <img src={user.avatar_url} alt={user.login} width={50} />
-            <p>{user.login}</p>
+            <p>
+              <Link href={`/users/${user.login}`}>{user.login}</Link>
+            </p>
           </li>
         ))}
       </ul>
