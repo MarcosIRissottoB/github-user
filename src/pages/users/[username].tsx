@@ -2,11 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import { ZodError } from 'zod';
-import {
-  GithubUserSchema,
-  GithubRepoArraySchema,
-  GithubRepoSchema,
-} from '@/schemas/github';
+import { GithubUserSchema, GithubRepoArraySchema } from '@/schemas/github';
 import { GithubRepo, GithubUser } from '@/types/github';
 import styles from './UserDetailPage.module.css';
 
@@ -116,9 +112,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const userUrl = `${API_BASE_URL}${ENDPOINT_USER}/${username}`;
     const { data: userData } = await axios.get(userUrl);
     const validatedUser = GithubUserSchema.parse(userData);
-
     const reposUrl = `${API_BASE_URL}${ENDPOINT_USER}/${username}/repos`;
-    console.log({ reposUrl });
     const { data: reposData } = await axios.get(reposUrl, {
       params: {
         per_page: 5,
