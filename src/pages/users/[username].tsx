@@ -1,14 +1,8 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import axios from 'axios';
-import { ZodError } from 'zod';
-import { GithubUserSchema, GithubRepoArraySchema } from '@/schemas/github';
 import { GithubRepo, GithubUser } from '@/types/github';
 import styles from './UserDetailPage.module.css';
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.github.com';
-const ENDPOINT_USER = '/users';
+import { fetchGithubUser, fetchGithubRepos } from '@/services/githubService';
 
 type UserDetailPageProps = {
   user: GithubUser | null;
@@ -109,46 +103,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   try {
-    const userUrl = `${API_BASE_URL}${ENDPOINT_USER}/${username}`;
-    const { data: userData } = await axios.get(userUrl);
-    const validatedUser = GithubUserSchema.parse(userData);
-    const reposUrl = `${API_BASE_URL}${ENDPOINT_USER}/${username}/repos`;
-    const { data: reposData } = await axios.get(reposUrl, {
-      params: {
-        per_page: 5,
-        page: 1,
-      },
-    });
-    const validatedRepos = GithubRepoArraySchema.parse(reposData);
+    const user = await fetchGithubUser(username);
+    const repos = await fetchGithubRepos(username);
 
     return {
       props: {
-        user: validatedUser,
-        repos: validatedRepos,
+        user,
+        repos,
         error: null,
       },
     };
   } catch (err) {
-    let errorMessage = 'Error desconocido';
-
-    if (err instanceof ZodError) {
-      errorMessage = `Error de validación: ${err.errors
-        .map((issue) => {
-          const location = issue.path.length
-            ? `${issue.path.join(' > ')}`
-            : 'respuesta completa';
-          return `${location}: ${issue.message}`;
-        })
-        .join(', ')}`;
-    } else if (err instanceof Error) {
-      errorMessage = `Error al obtener el usuario o repositorios: ${err.message}`;
-    }
-
     return {
       props: {
         user: null,
         repos: [],
-        error: errorMessage,
+        error: err instanceof Error ? err.message : 'Error desconocido.',
       },
     };
   }

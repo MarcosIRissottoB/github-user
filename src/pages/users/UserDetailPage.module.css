@@ -8,7 +8,6 @@
     font-family: var(--font-family, Arial, sans-serif);
     text-align: center;
     color: var(--color-primary);
-    text-align: center;
     background-color: var(--color-background, #f8f9fa);
 }
 
