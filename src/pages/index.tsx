@@ -1,45 +1,45 @@
 import React from 'react';
 import Link from 'next/link';
 import useFetchUsers from '../hooks/useFetchUsers';
+import styles from './HomePage.module.css';
 
 const HomePage: React.FC = () => {
   const { users, isLoading, error } = useFetchUsers();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className={styles.homePage__loading}>Loading...</div>;
   }
 
   if (error) {
     return (
-      <div
-        style={{
-          color: 'white',
-          padding: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-          textAlign: 'center',
-        }}
-      >
-        <h2 style={{ fontSize: '18px' }}>Oops, ocurrió un error</h2>
-        <p>Por favor, verifica los datos o inténtalo más tarde.</p>
+      <div className={styles.homePage__error}>
+        <h2 className={styles.homePage__errorTitle}>Oops, ocurrió un error</h2>
+        <p className={styles.homePage__errorMessage}>
+          Por favor, verifica los datos o inténtalo más tarde.
+        </p>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className={styles.homePage}>
       <h1>GitHub Users</h1>
-      <ul>
+      <ul className={styles.homePage__list}>
         {users.map((user) => (
-          <li key={user.id}>
-            <img src={user.avatar_url} alt={user.login} width={50} />
-            <p>
-              <Link href={`/users/${user.login}`}>{user.login}</Link>
-            </p>
-          </li>
+          <Link
+            key={user.id}
+            href={`/users/${user.login}`}
+            className={styles.homePage__link}
+          >
+            <li className={styles.homePage__listItem}>
+              <img
+                src={user.avatar_url}
+                alt={user.login}
+                className={styles.homePage__avatar}
+              />
+              <p className={styles.homePage__username}>{user.login}</p>
+            </li>
+          </Link>
         ))}
       </ul>
     </div>
