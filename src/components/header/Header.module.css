@@ -12,7 +12,12 @@
     font-size: var(--font-size-heading);
     font-weight: bold;
     color: white;
+    text-decoration: none;
     /*color: var(--color-background);*/
+}
+
+.header__title:hover {
+    text-decoration: none;
 }
 
 .header__search {

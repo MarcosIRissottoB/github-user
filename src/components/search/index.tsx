@@ -1,12 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Search.module.css';
-import useSearchUsers from '@/hooks/useSearchUsers';
 import { GithubUser } from '@/types/github';
-import Header from '@/components/header';
-
-interface HeaderProps {
-  onSearchResults: (users: GithubUser | []) => void;
-}
 
 const Search: React.FC<{
   query: string;

@@ -82,3 +82,35 @@
 .homePage__link:hover {
     text-decoration: underline;
 }
+
+
+.homePage__favoriteButton {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: var(--color-light-gray, #f9f9f9);
+    color: var(--color-dark, #333);
+    border: 2px solid var(--color-border, #ccc);
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.homePage__favoriteButton:hover {
+    background-color: var(--color-hover-gray, #ececec);
+    border-color: var(--color-hover-border, #bbb);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.homePage__favoriteButton.favorite {
+    background-color: var(--color-favorite-bg, #ffd6d6);
+    color: var(--color-favorite-text, #d9534f);
+    border-color: var(--color-favorite-border, #c9302c);
+}
+
+.homePage__favoriteButton.favorite:hover {
+    background-color: var(--color-favorite-hover-bg, #ffb3b3);
+    border-color: var(--color-favorite-hover-border, #d43f3a);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
