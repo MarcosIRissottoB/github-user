@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import useFetchUsers from '../hooks/useFetchUsers';
 import styles from './HomePage.module.css';
 import Header from '@/components/header';
-import { GithubUser } from '@/types/github';
+import { useUsers } from '@/context/UsersContext';
 
 const HomePage: React.FC = () => {
+  const { users, setUsers, favorites, toggleFavorite } = useUsers();
   const { users: initialUsers, isLoading, error } = useFetchUsers();
-  const [filteredUsers, setFilteredUsers] =
-    useState<GithubUser[]>(initialUsers);
 
   useEffect(() => {
-    if (initialUsers && initialUsers.length > 0) setFilteredUsers(initialUsers);
-  }, [initialUsers]);
-
-  const handleSearchResults = (users: GithubUser[]) => {
-    setFilteredUsers(users?.length > 0 ? users : initialUsers);
-  };
+    if (initialUsers && initialUsers.length > 0) {
+      setUsers(initialUsers);
+    }
+  }, [initialUsers, setUsers]);
 
   if (isLoading) {
     return <div className={styles.homePage__loading}>Loading...</div>;
@@ -35,24 +32,32 @@ const HomePage: React.FC = () => {
 
   return (
     <div className={styles.homePage}>
-      <Header onSearchResults={handleSearchResults} />
-      {/*<h1>GitHub Users</h1>*/}
+      <Header />
       <ul className={styles.homePage__list}>
-        {filteredUsers.map((user) => (
-          <Link
-            key={user.id}
-            href={`/users/${user.login}`}
-            className={styles.homePage__link}
-          >
-            <li className={styles.homePage__listItem}>
+        {users.map((user) => (
+          <li key={user.id} className={styles.homePage__listItem}>
+            <Link
+              href={`/users/${user.login}`}
+              className={styles.homePage__link}
+            >
               <img
                 src={user.avatar_url}
                 alt={user.login}
                 className={styles.homePage__avatar}
               />
               <p className={styles.homePage__username}>{user.login}</p>
-            </li>
-          </Link>
+            </Link>
+            <button
+              className={`${styles.homePage__favoriteButton} ${
+                favorites.has(user.id) ? styles.favorite : ''
+              }`}
+              onClick={() => toggleFavorite(user.id)}
+            >
+              {favorites.has(user.id)
+                ? '❤️ Quitar Favorito'
+                : '🤍 Agregar Favorito'}
+            </button>
+          </li>
         ))}
       </ul>
     </div>

@@ -4,8 +4,8 @@ import { GithubRepo, GithubUser } from '@/types/github';
 import styles from './UserDetailPage.module.css';
 import createGitHubService from '@/services/githubService';
 import axiosAdapter from '@/http/axiosAdapter';
-import { ZodError } from 'zod';
 import { handleError } from '@/utils/errorHandler';
+import { useUsers } from '@/context/UsersContext';
 
 type UserDetailPageProps = {
   user: GithubUser | null;
@@ -18,6 +18,14 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
   repos,
   error,
 }) => {
+  const { favorites, toggleFavorite } = useUsers();
+
+  const handleBack = () => {
+    window.history.back();
+  };
+
+  const currentDate = new Date().toLocaleDateString();
+
   if (error) {
     return (
       <div className={styles.userDetailPage__error}>
@@ -39,7 +47,16 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
 
   return (
     <div className={styles.userDetailPage}>
-      <h1 className={styles.userDetailPage__header}>Detalle del Usuario</h1>
+      <div className={styles.userDetailPage__top}>
+        <button
+          onClick={handleBack}
+          className={styles.userDetailPage__backButton}
+        >
+          Volver
+        </button>
+        <h1 className={styles.userDetailPage__header}>Detalle del Usuario</h1>
+        <div></div>
+      </div>
       <div className={styles.userDetailPage__container}>
         <div className={styles.userDetailPage__profile}>
           <img
@@ -48,43 +65,29 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
             className={styles.userDetailPage__avatar}
           />
           <h1 className={styles.userDetailPage__username}>{user.login}</h1>
-          {user.id && (
-            <p className={styles.userDetailPage__info}>ID: {user.id}</p>
-          )}
-          <a
-            href={user.html_url}
-            className={styles.userDetailPage__link}
-            target="_blank"
-            rel="noopener noreferrer"
+          <p className={styles.userDetailPage__info}>ID: {user.id}</p>
+          <button
+            className={`${styles.userDetailPage__favoriteButton} ${
+              favorites.has(user.id) ? styles.favorite : ''
+            }`}
+            onClick={() => toggleFavorite(user.id)}
           >
-            Ver perfil en GitHub
-          </a>
+            {favorites.has(user.id)
+              ? '❤️ Quitar Favorito'
+              : '🤍 Agregar Favorito'}
+          </button>
         </div>
         {repos && repos.length > 0 ? (
           <div className={styles.userDetailPage__repos}>
             <h2>Repositorio(s):</h2>
-            <ul className={styles.userDetailPage__reposList}>
+            <ul>
               {repos.map((repo) => (
-                <li key={repo.id} className={styles.userDetailPage__repo}>
-                  <a
-                    href={repo.html_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.userDetailPage__repoLink}
-                  >
-                    {repo.name}
-                  </a>
-                  <span className={styles.userDetailPage__repoId}>
-                    {`(ID: ${repo.id})`}
-                  </span>
-                </li>
+                <li key={repo.id}>{repo.name}</li>
               ))}
             </ul>
           </div>
         ) : (
-          <div className={styles.userDetailPage__noRepos}>
-            <h2>El usuario no tiene repositorios públicos.</h2>
-          </div>
+          <div>No hay repositorios.</div>
         )}
       </div>
     </div>

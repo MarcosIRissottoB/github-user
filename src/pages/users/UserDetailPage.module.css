@@ -89,3 +89,68 @@
 .userDetailPage__errorMessage {
     font-size: var(--font-size-base);
 }
+
+.userDetailPage__favoriteButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f4f4f4;
+    color: #333;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.userDetailPage__favoriteButton:hover {
+    background-color: #ddd;
+    border-color: #aaa;
+}
+
+.userDetailPage__favoriteButton.favorite {
+    background-color: #ffcccc;
+    color: #cc0000;
+    border-color: #cc0000;
+}
+
+.userDetailPage__favoriteButton.favorite:hover {
+    background-color: #ff9999;
+    border-color: #990000;
+}
+
+.userDetailPage__backButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: var(--color-primary, #007bff);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.userDetailPage__backButton:hover {
+    background-color: var(--color-primary-hover, #0056b3);
+    transform: scale(1.05);
+}
+
+.userDetailPage__backButton:active {
+    transform: scale(1);
+}
+
+.userDetailPage__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: var(--color-background, #f8f9fa);
+}
+
+.userDetailPage__header {
+    margin: 0;
+    font-size: 24px;
+    color: var(--color-primary);
+    text-align: center;
+    flex-grow: 1;
+}
