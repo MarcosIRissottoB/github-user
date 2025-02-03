@@ -1,40 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Github User Finder
 
-## Getting Started
+Este es un proyecto que permite buscar y visualizar información sobre usuarios de Github. La aplicación utiliza la **API de Github** para obtener datos relacionados con usuarios, sus repositorios y otra información relevante. Este proyecto fue creado utilizando **Next.js** y está diseñado para proporcionar una experiencia rápida y amigable.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## **Requisitos**
+
+Antes de comenzar, asegúrate de que tu entorno cumple con los siguientes requisitos:
+
+- Node.js versión `>= 18`
+- npm versión `>= 8`
+- Una conexión activa a Internet (para consumir la API de Github)
+
+---
+
+## **Instalación**
+
+Para configurar el proyecto localmente, sigue estos pasos:
+
+1. **Clona el repositorio**:
+   ```bash
+   git clone https://github.com/MarcosIRissottoB/github-user.git
+   cd github-user
+   ```
+
+2. **Instala las dependencias**:  
+   Ejecuta el siguiente comando para instalar todas las dependencias necesarias:
+   ```bash
+   npm install
+   ```
+
+3. **Ejecuta el entorno de desarrollo**:
+   ```bash
+   npm run dev
+   ```
+
+4. Abre tu navegador en `http://localhost:3000` para ver el proyecto en ejecución.
+
+---
+
+## **Cómo usar las funcionalidades**
+
+### **Buscar un usuario**
+1. Ingresa el nombre de usuario en el formulario de búsqueda.
+2. Presiona el botón de búsqueda para obtener toda la información disponible de ese usuario.
+
+### **Ver detalles del usuario**
+- Haz clic en el nombre de usuario para visualizar información adicional como:
+    - Avatar
+    - Repositorios públicos
+
+### **Explorar repositorios**
+- Una vez dentro del perfil del usuario, se muestran todos sus repositorios públicos con enlaces directos a Github.
+
+---
+
+## **Tecnologías utilizadas**
+
+Este proyecto utiliza las siguientes tecnologías y bibliotecas:
+
+- **Frontend:**}
+    - [Next.js](https://nextjs.org/) (v15.1.6)
+    - Typescript https://www.typescriptlang.org/
+    - Etc.
+- **Estilo y diseño:**
+    - CSS Modules
+
+- **Testing:**
+    - [Jest](https://jestjs.io/) (v29.7)
+    - [Testing Library](https://testing-library.com/) (React, DOM, y User Event)
+
+- **Linter y formato:**
+    - ESLint
+    - Prettier
+    - Husky y lint-staged
+
+- **Backend (API Consumption):**
+    - [Axios](https://axios-http.com/) (para solicitudes HTTP).
+
+---
+
+## **Estructura del proyecto**
+
+La estructura de carpetas está organizada para mantener el proyecto limpio y escalable. A continuación, una breve descripción:
+
+```plaintext
+src/
+├── components/    # Componentes reutilizables como botones y formularios
+├── pages/         # Páginas principales de la aplicación
+│   ├── index.tsx      # Página principal (búsqueda)
+│   ├── users/         # Directorio para rutas físicas
+│       └── UserDetailPage.tsx # Detalle del usuario
+├── styles/        # Archivos de estilos (CSS Modules)
+├── utils/         # Utilidades y funciones de ayuda (como validación de datos)
+├── types/         # Tipos globales (TypeScript)
+├── hooks/         # Hooks personalizados adicionales (si corresponde)
+├── __tests__/     # Archivos y configuraciones para pruebas unitarias
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## **Pruebas y calidad de código**
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Ejecutar los linters y formateadores:
+```bash
+npm run lint
+npm run lint:fix
+npm run format
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### Ejecutar las pruebas:
+```bash
+npm run test
+```
+Esto ejecuta todas las pruebas configuradas con **Jest** y Testing Library.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## **Contribuciones**
 
-To learn more about Next.js, take a look at the following resources:
+Este proyecto está abierto a contribuciones. Si deseas colaborar, crea un pull request o abre un issue describiendo tu propuesta de mejora.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## **Licencia**
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+Este proyecto se encuentra bajo la licencia [MIT](https://opensource.org/licenses/MIT). 
