@@ -1,74 +1,139 @@
-import axios from 'axios';
-import { ZodError } from 'zod';
-import {
-  GithubUserSchema,
-  GithubUserArraySchema,
-  GithubRepoArraySchema,
-} from '@/schemas/github';
+import { HttpClient, HttpResponse } from '@/http/httpClient';
 import { GithubUser, GithubRepo } from '@/types/github';
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.github.com';
-const ENDPOINT_USERS = '/users';
+const API_GITHUB = '/api/github';
+const USERS_ENDPOINT = process.env.NEXT_PUBLIC_USERS_ENDPOINT;
+const SEARCH_USERS_ENDPOINT = process.env.NEXT_PUBLIC_SEARCH_USERS_ENDPOINT;
+const REPOS_ENDPOINT = process.env.NEXT_PUBLIC_REPOSITORIES_ENDPOINT;
 
-export const fetchGithubUsers = async (): Promise<GithubUser[] | undefined> => {
-  try {
-    const { data } = await axios.get(`${API_BASE_URL}${ENDPOINT_USERS}`);
-    return GithubUserArraySchema.parse(data);
-  } catch (error) {
-    handleErrors(error, 'Error al obtener la lista de usuarios.');
-  }
+const getApiRoute = (path: string): string => {
+  const isServer = typeof window === 'undefined';
+  const baseUrl = isServer
+    ? process.env.NEXT_PUBLIC_API_SERVER_BASE || 'http://localhost:3000'
+    : '';
+  return `${baseUrl}${path}`;
 };
 
-export const fetchGithubUser = async (
-  username: string
-): Promise<GithubUser | undefined> => {
-  try {
-    const { data } = await axios.get(
-      `${API_BASE_URL}${ENDPOINT_USERS}/${username}`
-    );
-    return GithubUserSchema.parse(data);
-  } catch (error) {
-    handleErrors(error, `Error al obtener el usuario "${username}".`);
-  }
+export const API_ROUTES = {
+  USERS: `${API_GITHUB}${USERS_ENDPOINT}`,
+  SEARCH_USERS: (term: string) =>
+    getApiRoute(
+      `${API_GITHUB}${USERS_ENDPOINT}${SEARCH_USERS_ENDPOINT}?q=${term}`
+    ),
+  USER_DETAILS: (username: string) =>
+    getApiRoute(`${API_GITHUB}${USERS_ENDPOINT}/${username}`),
+  USER_REPOSITORIES: (username: string) =>
+    getApiRoute(`${API_GITHUB}${USERS_ENDPOINT}/${username}${REPOS_ENDPOINT}`),
 };
 
-export const fetchGithubRepos = async (
-  username: string,
-  perPage = 5,
-  page = 1
-): Promise<GithubRepo[] | undefined> => {
-  try {
-    const { data } = await axios.get(
-      `${API_BASE_URL}${ENDPOINT_USERS}/${username}/repos`,
-      {
-        params: { per_page: perPage, page },
-      }
-    );
-    return GithubRepoArraySchema.parse(data);
-  } catch (error) {
-    handleErrors(
-      error,
-      `Error al obtener los repositorios del usuario "${username}".`
-    );
-  }
+const createGitHubService = (httpClient: HttpClient) => {
+  const fetchUsers = async (): Promise<HttpResponse<GithubUser[]>> => {
+    try {
+      const response = await httpClient.get<GithubUser[]>(API_ROUTES.USERS);
+      return {
+        data: response.data,
+        status: 200,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        data: [],
+        status: 500,
+        error: {
+          code: 'FETCH_USERS_ERROR',
+          message: 'An error occurred while fetching users',
+          details: error,
+        },
+      };
+    }
+  };
+
+  const searchUsers = async (
+    term: string
+  ): Promise<HttpResponse<GithubUser[]>> => {
+    try {
+      const response = await httpClient.get<GithubUser[]>(
+        API_ROUTES.SEARCH_USERS(term)
+      );
+      return {
+        data: response.data,
+        status: 200,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        data: [],
+        status: 500,
+        error: {
+          code: 'SEARCH_USERS_ERROR',
+          message: `Failed to search users with term '${term}'`,
+          details: error,
+        },
+      };
+    }
+  };
+
+  const fetchUserDetails = async (
+    username: string
+  ): Promise<HttpResponse<GithubUser>> => {
+    try {
+      const response = await httpClient.get<GithubUser>(
+        API_ROUTES.USER_DETAILS(username)
+      );
+      return {
+        data: response.data,
+        status: 200,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        data: {} as GithubUser,
+        status: 500,
+        error: {
+          code: 'FETCH_USER_DETAILS_ERROR',
+          message: `Failed to fetch details for user ${username}`,
+          details: error,
+        },
+      };
+    }
+  };
+
+  const fetchRepositories = async (
+    username: string,
+    perPage = 5,
+    page = 1
+  ): Promise<HttpResponse<GithubRepo[]>> => {
+    try {
+      const response = await httpClient.get<GithubRepo[]>(
+        API_ROUTES.USER_REPOSITORIES(username),
+        {
+          params: { perPage, page },
+        }
+      );
+      return {
+        data: response.data,
+        status: 200,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        data: [],
+        status: 500,
+        error: {
+          code: 'FETCH_REPOSITORIES_ERROR',
+          message: `Failed to fetch repositories for user ${username}`,
+          details: error,
+        },
+      };
+    }
+  };
+
+  return {
+    fetchUsers,
+    searchUsers,
+    fetchUserDetails,
+    fetchRepositories,
+  };
 };
 
-const handleErrors = (error: unknown, message: string) => {
-  if (error instanceof ZodError) {
-    throw new Error(
-      `${message}: ${error.errors
-        .map((issue) => {
-          const location = issue.path.length
-            ? `${issue.path.join(' > ')}`
-            : 'respuesta completa';
-          return `${location}: ${issue.message}`;
-        })
-        .join(', ')}`
-    );
-  } else if (error instanceof Error) {
-    throw new Error(`${message}: ${error.message}`);
-  } else {
-    throw new Error(`${message}: Error desconocido.`);
-  }
-};
+export default createGitHubService;
