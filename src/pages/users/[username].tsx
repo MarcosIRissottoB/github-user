@@ -2,7 +2,10 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import { GithubRepo, GithubUser } from '@/types/github';
 import styles from './UserDetailPage.module.css';
-import { fetchGithubUser, fetchGithubRepos } from '@/services/githubService';
+import createGitHubService from '@/services/githubService';
+import axiosAdapter from '@/http/axiosAdapter';
+import { ZodError } from 'zod';
+import { handleError } from '@/utils/errorHandler';
 
 type UserDetailPageProps = {
   user: GithubUser | null;
@@ -57,7 +60,6 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
             Ver perfil en GitHub
           </a>
         </div>
-
         {repos && repos.length > 0 ? (
           <div className={styles.userDetailPage__repos}>
             <h2>Repositorio(s):</h2>
@@ -91,6 +93,7 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { username } = context.query;
+  const githubService = createGitHubService(axiosAdapter);
 
   if (!username || typeof username !== 'string') {
     return {
@@ -103,22 +106,26 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   try {
-    const user = await fetchGithubUser(username);
-    const repos = await fetchGithubRepos(username);
-
+    const user = await githubService.fetchUserDetails(username);
+    const repos = await githubService.fetchRepositories(username);
     return {
       props: {
-        user,
-        repos,
+        user: user?.data,
+        repos: repos?.data,
         error: null,
       },
     };
-  } catch (err) {
+  } catch (error) {
+    const serializableError = handleError(error, {
+      validationMessage: 'Los datos del usuario no son válidos.',
+      genericMessage: 'Hubo un problema al obtener los datos del usuario.',
+    });
+
     return {
       props: {
         user: null,
         repos: [],
-        error: err instanceof Error ? err.message : 'Error desconocido.',
+        error: serializableError.message,
       },
     };
   }

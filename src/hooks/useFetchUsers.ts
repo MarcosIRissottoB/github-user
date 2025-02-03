@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
-import { fetchGithubUsers } from '@/services/githubService';
+import createGitHubService from '@/services/githubService';
 import { GithubUser } from '@/types/github';
+import axiosAdapter from '@/http/axiosAdapter';
 
 const useFetchUsers = () => {
   const [users, setUsers] = useState<GithubUser[] | []>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const githubService = createGitHubService(axiosAdapter);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const usersData = await fetchGithubUsers();
-        setUsers(usersData ?? []);
+        const usersData = await githubService.fetchUsers();
+        setUsers(usersData?.data || []);
         setError(null);
       } catch (err) {
         if (err instanceof Error) {
