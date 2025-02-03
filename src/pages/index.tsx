@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import useFetchUsers from '../hooks/useFetchUsers';
 import styles from './HomePage.module.css';
 import Header from '@/components/header';
@@ -40,10 +41,12 @@ const HomePage: React.FC = () => {
               href={`/users/${user.login}`}
               className={styles.homePage__link}
             >
-              <img
+              <Image
                 src={user.avatar_url}
                 alt={user.login}
                 className={styles.homePage__avatar}
+                width={100}
+                height={100}
               />
               <p className={styles.homePage__username}>{user.login}</p>
             </Link>
@@ -54,8 +57,8 @@ const HomePage: React.FC = () => {
               onClick={() => toggleFavorite(user.id)}
             >
               {favorites.has(user.id)
-                ? '❤️ Quitar Favorito'
-                : '🤍 Agregar Favorito'}
+                ? '❤️ Quitar de favoritos'
+                : '🤍 Agregar a favoritos'}
             </button>
           </li>
         ))}

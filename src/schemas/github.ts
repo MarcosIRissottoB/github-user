@@ -22,8 +22,6 @@ export const GithubUserSchema = z.object({
   user_view_type: z.string().optional(),
 });
 
-export type GithubUser = z.infer<typeof GithubUserSchema>;
-
 export const GithubUserArraySchema = z.array(GithubUserSchema);
 
 const GithubRepoSchema = z.object({

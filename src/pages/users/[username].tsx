@@ -1,5 +1,6 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
+import Image from 'next/image';
 import { GithubRepo, GithubUser } from '@/types/github';
 import styles from './UserDetailPage.module.css';
 import createGitHubService from '@/services/githubService';
@@ -59,10 +60,12 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
       </div>
       <div className={styles.userDetailPage__container}>
         <div className={styles.userDetailPage__profile}>
-          <img
+          <Image
             src={user.avatar_url}
             alt={user.login}
             className={styles.userDetailPage__avatar}
+            width={100}
+            height={100}
           />
           <h1 className={styles.userDetailPage__username}>{user.login}</h1>
           <p className={styles.userDetailPage__info}>ID: {user.id}</p>

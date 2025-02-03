@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
 import { GithubUser } from '@/types/github';
 
 type UsersContextType = {
@@ -16,7 +22,7 @@ export const UsersProvider: React.FC<{ children: React.ReactNode }> = ({
   const [users, setUsers] = useState<GithubUser[]>([]);
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
 
-  const toggleFavorite = (userId: number) => {
+  const toggleFavorite = useCallback((userId: number) => {
     setFavorites((prevFavorites) => {
       const newFavorites = new Set(prevFavorites);
       if (newFavorites.has(userId)) {
@@ -26,14 +32,20 @@ export const UsersProvider: React.FC<{ children: React.ReactNode }> = ({
       }
       return newFavorites;
     });
-  };
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      users,
+      favorites,
+      setUsers,
+      toggleFavorite,
+    }),
+    [users, favorites]
+  );
 
   return (
-    <UsersContext.Provider
-      value={{ users, favorites, setUsers, toggleFavorite }}
-    >
-      {children}
-    </UsersContext.Provider>
+    <UsersContext.Provider value={value}>{children}</UsersContext.Provider>
   );
 };
 
