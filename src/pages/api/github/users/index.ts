@@ -2,7 +2,6 @@ import { handleError } from '@/utils/errorHandler';
 import axiosAdapter from '@/http/axiosAdapter';
 import { GithubUserArraySchema } from '@/schemas/github';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { API_ROUTES } from '@/services/githubService';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 const USERS_ENDPOINT = process.env.NEXT_PUBLIC_USERS_ENDPOINT || '';
