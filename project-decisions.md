@@ -1,93 +1,114 @@
-# Decisiones Tomadas en el Proyecto
+# Project Decisions
 
-## 1. Estructura Inicial del Proyecto
+Este documento detalla las decisiones técnicas y de arquitectura tomadas durante el desarrollo del proyecto.
 
-- Se utiliza **Next.js** como framework principal.
-- Configuración inicial realizada:
-    - ESLint y Prettier con reglas personalizadas.
-    - Husky y lint-staged para hooks de pre-commit.
-- La arquitectura se desarrolla incrementalmente, comenzando con un enfoque sencillo y agregando complejidad de manera
-  progresiva.
+---
 
-## 2. Nomenclatura de Ramas
+## **Decisiones tomadas**
+
+1. **Uso de Next.js**
+  - Se seleccionó Next.js para aprovechar su optimización de rendimiento, generación de rutas automáticas y capacidad de SSR/SSG. Esto le brindó flexibilidad al proyecto para adaptarse a distintos casos de uso.
+
+2. **Tecnologías de pruebas**
+  - Se eligieron **Jest** y **Testing Library** por su simplicidad y soporte activo para pruebas de React. Estas herramientas facilitaron la validación de los componentes y el comportamiento del usuario.
+
+3. **Uso de Axios**
+  - En lugar de `fetch`, se decidió usar **Axios** por su manejo más ordenado y su soporte para interceptores, lo cual simplificó la gestión de errores y escalabilidad de las solicitudes HTTP.
+
+4. **Integración de ESLint y Prettier**
+  - Se configuraron ESLint y Prettier para mantener uniformidad del código, prevenir errores y mejorar el formato automáticamente durante el flujo de trabajo.
+
+---
+
+## **Estructura del Proyecto**
+
+- Se utilizó **Next.js** como framework principal.
+- Para la configuración inicial se incluyeron:
+  - ESLint y Prettier con reglas personalizadas.
+  - Husky y lint-staged para hooks de pre-commit.
+- La arquitectura del proyecto se desarrolló incrementalmente, comenzando con un enfoque sencillo y agregando complejidad progresivamente.
+
+---
+
+## **Nomenclatura de Ramas**
 
 - **chore/**: Para tareas de configuración o mantenimiento (e.g., chore/setup-eslint).
 - **feat/**: Para nuevas funcionalidades (e.g., feat/user-fetching).
 
-## 3. Fetching de Datos
+---
 
-### Etapa Inicial
+## **Fetching de Datos**
 
-- Se realiza el fetching directamente en la página (`pages/index.tsx`) para probar rápidamente el flujo básico.
-- Se utiliza **Axios** para las solicitudes HTTP.
+### Implementación inicial
 
-### Refactorización Incremental
+- En las primeras etapas se realizó el fetching directamente en la página (`pages/index.tsx`) para probar rápidamente el flujo básico de la aplicación.
+- Luego se utilizó **Axios** para las solicitudes HTTP, migro la logica a custom hook, servicios y la api interna de Next.js.
 
-- La lógica de fetching se moverá a:
-  Refactor 1. Un custom hook (`useFetchUsers`) para modularizar el código.
-  Refactor 2. Un servicio en la capa de infraestructura (`src/services/userService.ts`) para manejar la lógica de API.
-  Refactor 3. Finalmente, integrar la lógica con SWR para mejorar la gestión de datos.
+### Refactor posterior
 
-## 4. Manejo de Estado
+- La lógica de fetching fue migrada a hooks, servicios y la API interna de Next.js.
+- Se agregó un adaptador para **Axios** con el objetivo de desacoplarlo la dependencia y facilitar cambios futuros.
 
-- Inicialmente, el estado (e.g., favoritos) se gestiona directamente en el componente page.
-- En etapas posteriores, el estado se moverá a:
-    - Custom hooks para lógica específica.
-    - Posiblemente, una herramienta de manejo de estado global si la complejidad lo requiere (e.g., Context o Zustand).
+---
 
-## 5. Uso de Constantes y Variables de Entorno
+## **Manejo de Estado**
 
-- Se utilizan constantes para evitar strings mágicos:
+- Inicialmente, el estado (como favoritos) se gestionó directamente dentro de los componentes, específicamente en la página correspondiente.
+- Posteriormente:
+  - Parte de la lógica se trasladó a **custom hooks** para mayor reusabilidad.
+  - Finalmente, el estado global fue movido a un **Context**, facilitando el acceso consistente a los datos en componentes separados.
+
+---
+
+## **Uso de Constantes y Variables de Entorno**
+
+- Para evitar strings mágicos, se definieron constantes reutilizables:
+
   ```typescript
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.github.com';
   const ENDPOINT_USERS = '/users';
   ```
-- Archivo `.env.example` creado para facilitar la configuración inicial:
+
+- Se creó un archivo `.env.example` para simplificar la configuración inicial:
+
   ```env
   NEXT_PUBLIC_API_BASE_URL=https://api.github.com
   ```
 
-## 6. Lógica de Favoritos
+---
+
+## **Lógica de Favoritos**
 
 - Implementación inicial:
-    - Los favoritos se gestionan como un array en el estado del componente.
-    - Un botón permite agregar y eliminar usuarios de favoritos.
-- Refactor futuro:
-    - Mover la lógica de favoritos a un hook específico o al dominio.
+  - Los favoritos se gestionaron mediante un array en el estado de los componentes.
+  - Se habilitó un botón que permitía agregar y eliminar usuarios de favoritos.
 
-## 7. Manejo de Rutas
+- Refactor posterior:
+  - La lógica fue movida a un **hook personalizado** para facilitar su reutilización en distintas partes del proyecto.
 
-- Se utiliza CSR (Client-Side Rendering) en el Home.
-- Posteriormente, se implementará SSR (Server-Side Rendering) en páginas como el detalle del usuario.
+---
 
-## 8. Páginas y Navegación
+## **Manejo de Rutas**
 
-- Página inicial: `/` muestra una lista de usuarios, utiliza CSR.
-- Página de detalle: `/user/[id]` mostrará información detallada de un usuario específico.
-    - Se utilizará SSR para esta página.
+- Se implementó **CSR (Client-Side Rendering)** en la página principal (Home).
+- Para la página de detalle del usuario, se utilizó **SSR (Server-Side Rendering)**, optimizando la carga inicial y mejorando el SEO.
 
-## 9. Configuración de Estilos
+---
 
-- Se definirán variables CSS para temas, tamaños, y estilos globales.
-- Los estilos se modularizan en `src/styles/`.
+## **Páginas y Navegación**
 
-## 10. Decisiones sobre Patrones de Diseño
+- Página inicial `/`:
+  - Muestra una lista de usuarios con su información básica. La página utiliza CSR.
+- Página de detalle `/user/[id]`:
+  - Esta página muestra información ampliada de un usuario específico, como el avatar, repositorios y seguidores. Utiliza SSR.
 
-- **Custom Hooks**: Para lógica de fetching, manejo de estado, etc.
-- **Separación por capas** (incremental):
-    - UI: Componentes reutilizables.
-    - Dominio: Lógica de negocio, validaciones.
-    - Infraestructura: Interacciones con APIs y servicios externos.
+---
 
-## Próximos Pasos
+## **Configuración de Estilos**
 
-1. Mover la lógica de fetching a un custom hook (`useFetchUsers`).
-2. Implementar la funcionalidad de favoritos.
-3. Crear la página de detalles de usuario.
-4. Refactorizar el código en capas (UI, dominio, infraestructura).
-5. Integrar SWR para optimizar el fetching de datos.
-6. Configurar estilos globales y tema.
+- Se definieron y utilizaron variables CSS para temas, tamaños y estilos globales en todo el proyecto.
+- Los estilos se modularizaron en la carpeta `src/styles/` para facilitar su mantenimiento y evitar conflictos entre ellos.
 
-Estas decisiones buscan mantener un balance entre simplicidad y escalabilidad, priorizando la entrega incremental y
-pruebas rápidas de funcionalidad.
+---
 
+Estas decisiones lograron mantener un balance entre simplicidad y escalabilidad, priorizando la entrega incremental de funcionalidades y permitiendo pruebas rápidas durante el desarrollo.
