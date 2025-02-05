@@ -33,5 +33,3 @@ const GithubRepoSchema = z.object({
 });
 
 export const GithubRepoArraySchema = z.array(GithubRepoSchema);
-
-export type GithubRepo = z.infer<typeof GithubRepoSchema>;

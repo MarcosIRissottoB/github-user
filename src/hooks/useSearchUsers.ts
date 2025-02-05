@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import createGitHubService, { API_ROUTES } from '@/services/githubService';
+import createGitHubService from '@/services/githubService';
 import axiosAdapter from '@/http/axiosAdapter';
 import { GithubUser } from '@/types/github';
 import { HttpResponse } from '@/http/httpClient';
@@ -43,9 +43,7 @@ const useSearchUsers = () => {
         data: [],
         status: 500,
         error: {
-          code: 'SEARCH_USERS_ERROR',
           message: `Failed to search users with term '${term}'`,
-          details: err,
         },
       };
     } finally {

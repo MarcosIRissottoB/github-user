@@ -28,74 +28,20 @@ export const API_ROUTES = {
 
 const createGitHubService = (httpClient: HttpClient) => {
   const fetchUsers = async (): Promise<HttpResponse<GithubUser[]>> => {
-    try {
-      const response = await httpClient.get<GithubUser[]>(API_ROUTES.USERS);
-      return {
-        data: response.data,
-        status: 200,
-        error: null,
-      };
-    } catch (error) {
-      return {
-        data: [],
-        status: 500,
-        error: {
-          code: 'FETCH_USERS_ERROR',
-          message: 'An error occurred while fetching users',
-          details: error,
-        },
-      };
-    }
+    const response = await httpClient.get<GithubUser[]>(API_ROUTES.USERS);
+    return response;
   };
 
   const searchUsers = async (
     term: string
   ): Promise<HttpResponse<GithubUser[]>> => {
-    try {
-      const response = await httpClient.get<GithubUser[]>(
-        API_ROUTES.SEARCH_USERS(term)
-      );
-      return {
-        data: response.data,
-        status: 200,
-        error: null,
-      };
-    } catch (error) {
-      return {
-        data: [],
-        status: 500,
-        error: {
-          code: 'SEARCH_USERS_ERROR',
-          message: `Failed to search users with term '${term}'`,
-          details: error,
-        },
-      };
-    }
+    return await httpClient.get<GithubUser[]>(API_ROUTES.SEARCH_USERS(term));
   };
 
   const fetchUserDetails = async (
     username: string
   ): Promise<HttpResponse<GithubUser>> => {
-    try {
-      const response = await httpClient.get<GithubUser>(
-        API_ROUTES.USER_DETAILS(username)
-      );
-      return {
-        data: response.data,
-        status: 200,
-        error: null,
-      };
-    } catch (error) {
-      return {
-        data: {} as GithubUser,
-        status: 500,
-        error: {
-          code: 'FETCH_USER_DETAILS_ERROR',
-          message: `Failed to fetch details for user ${username}`,
-          details: error,
-        },
-      };
-    }
+    return await httpClient.get<GithubUser>(API_ROUTES.USER_DETAILS(username));
   };
 
   const fetchRepositories = async (
@@ -103,29 +49,12 @@ const createGitHubService = (httpClient: HttpClient) => {
     perPage = 5,
     page = 1
   ): Promise<HttpResponse<GithubRepo[]>> => {
-    try {
-      const response = await httpClient.get<GithubRepo[]>(
-        API_ROUTES.USER_REPOSITORIES(username),
-        {
-          params: { perPage, page },
-        }
-      );
-      return {
-        data: response.data,
-        status: 200,
-        error: null,
-      };
-    } catch (error) {
-      return {
-        data: [],
-        status: 500,
-        error: {
-          code: 'FETCH_REPOSITORIES_ERROR',
-          message: `Failed to fetch repositories for user ${username}`,
-          details: error,
-        },
-      };
-    }
+    return await httpClient.get<GithubRepo[]>(
+      API_ROUTES.USER_REPOSITORIES(username),
+      {
+        params: { perPage, page },
+      }
+    );
   };
 
   return {

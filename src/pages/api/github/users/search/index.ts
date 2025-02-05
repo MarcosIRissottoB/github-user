@@ -1,8 +1,9 @@
-import { handleError } from '@/utils/errorHandler';
+import { handleError } from '@/errors/handleError';
 import axiosAdapter from '@/http/axiosAdapter';
-import { GithubUserArraySchema, GithubUserSchema } from '@/schemas/github';
+import { GithubUserArraySchema } from '@/schemas/github';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { GithubSearchUsersResponse } from '@/types/github';
+import { HttpResponse } from '@/http/httpClient';
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.github.com';
@@ -24,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-      const response: { data: GithubSearchUsersResponse } =
+      const { data }: HttpResponse<GithubSearchUsersResponse> =
         await axiosAdapter.get(
           `${API_BASE_URL}${SEARCH_ENDPOINT}${USERS_ENDPOINT}`,
           {
@@ -34,13 +35,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           }
         );
-      if (response.data.items.length === 0) {
+      if (data?.items.length === 0) {
         return res.status(404).json({
           error: 'No se encontraron usuarios para la búsqueda proporcionada.',
         });
       }
 
-      const validatedUser = GithubUserArraySchema.parse(response.data.items);
+      const validatedUser = GithubUserArraySchema.parse(data?.items);
       res.status(200).json(validatedUser);
     } catch (error) {
       const serializableError = handleError(error, {
@@ -48,7 +49,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         genericMessage: 'Error al buscar usuarios en GitHub.',
       });
 
-      return res.status(500).json({
+      return res.status(serializableError.status || 500).json({
         error: serializableError.message,
         details: serializableError.details ?? undefined,
       });

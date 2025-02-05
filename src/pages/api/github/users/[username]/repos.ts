@@ -1,7 +1,7 @@
-import { handleError } from '@/utils/errorHandler';
 import axiosAdapter from '@/http/axiosAdapter';
 import { GithubRepoArraySchema } from '@/schemas/github';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { handleError } from '@/errors/handleError';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 const USERS_ENDPOINT = process.env.NEXT_PUBLIC_USERS_ENDPOINT || '';
@@ -38,7 +38,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         genericMessage: `Error al obtener los repositorios de "${username}".`,
       });
 
-      return res.status(500).json({
+      return res.status(serializableError.status || 500).json({
         error: serializableError.message,
         details: serializableError.details ?? undefined,
       });

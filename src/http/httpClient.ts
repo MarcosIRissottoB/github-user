@@ -2,17 +2,14 @@ export interface HttpClient {
   get<T = unknown>(
     url: string,
     config?: Record<string, unknown>
-  ): Promise<{ data: T }>;
+  ): Promise<HttpResponse<T>>;
 }
 
 export interface HttpResponse<T> {
-  data: T;
-  status?: number;
+  data: T | null;
+  status: number;
   error?: {
-    code: string;
     message: string;
-    details?: unknown;
-    [key: string]: unknown;
   } | null;
   [key: string]: unknown;
 }
