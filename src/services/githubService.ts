@@ -28,8 +28,7 @@ export const API_ROUTES = {
 
 const createGitHubService = (httpClient: HttpClient) => {
   const fetchUsers = async (): Promise<HttpResponse<GithubUser[]>> => {
-    const response = await httpClient.get<GithubUser[]>(API_ROUTES.USERS);
-    return response;
+    return await httpClient.get<GithubUser[]>(API_ROUTES.USERS);
   };
 
   const searchUsers = async (

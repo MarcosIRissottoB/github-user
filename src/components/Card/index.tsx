@@ -27,6 +27,8 @@ Card.Image = ({ src, alt, className }: CardImageProps) => (
     src={src}
     alt={alt}
     className={`${styles.card__image} ${className || ''}`}
+    width={200}
+    height={200}
   />
 );
 Card.Image.displayName = 'Card.Image';

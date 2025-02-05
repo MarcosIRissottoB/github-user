@@ -4,44 +4,34 @@ import { GithubUser } from '@/types/github';
 import axiosAdapter from '@/http/axiosAdapter';
 import { HttpResponse } from '@/http/httpClient';
 
-const useFetchUsers = () => {
-  const [users, setUsers] = useState<GithubUser[] | []>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<{
-    message: string;
-    status?: number;
-  } | null>(null);
+const githubService = createGitHubService(axiosAdapter);
 
-  const githubService = createGitHubService(axiosAdapter);
+interface UseFetchUsersResult {
+  data: HttpResponse<GithubUser[]> | null;
+  error: string | null;
+  isLoading: boolean;
+}
+
+const useFetchUsers = (): UseFetchUsersResult => {
+  const [data, setData] = useState<HttpResponse<GithubUser[]> | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data, status, error }: HttpResponse<GithubUser[]> =
-          await githubService.fetchUsers();
-        if (error) {
-          setError({
-            message: error.message || 'Ocurrió un error inesperado.',
-            status,
-          });
-          return;
-        }
+    const fetchUsers = async () => {
+      setIsLoading(true);
+      const response: HttpResponse<GithubUser[]> =
+        await githubService.fetchUsers();
 
-        setUsers(data || []);
-        setError(null);
-      } catch (err) {
-        setUsers([]);
-        setError({
-          message: 'Error al conectar con el servidor. Intenta más tarde.',
-        });
-      } finally {
-        setIsLoading(false);
-      }
+      setData(response);
+      setError(response?.error?.message || null);
+      setIsLoading(false);
     };
 
-    fetchData();
+    fetchUsers();
   }, []);
 
-  return { users, isLoading, error };
+  return { data, error, isLoading };
 };
 
 export default useFetchUsers;
