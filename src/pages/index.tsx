@@ -8,13 +8,13 @@ import Header from '@/components/header';
 
 const HomePage: React.FC = () => {
   const { users, setUsers, favorites, toggleFavorite } = useUsers();
-  const { users: initialUsers, isLoading, error } = useFetchUsers();
+  const { data: response, isLoading, error } = useFetchUsers();
 
   useEffect(() => {
-    if (initialUsers && initialUsers.length > 0 && initialUsers !== users) {
-      setUsers(initialUsers);
+    if (response?.data && response.data.length > 0 && users !== response.data) {
+      setUsers(response.data);
     }
-  }, [initialUsers, users, setUsers]);
+  }, [response, users, setUsers]);
 
   const handleBack = () => {
     setUsers([]);
@@ -30,8 +30,7 @@ const HomePage: React.FC = () => {
       <Error
         title="Oops, ocurrió un error"
         message={
-          error.message ||
-          'Por favor, verifica los datos o inténtalo más tarde.'
+          error || 'Por favor, verifica los datos o inténtalo más tarde.'
         }
         onRetry={handleBack}
         retryLabel="Volver"

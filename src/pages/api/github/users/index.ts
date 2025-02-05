@@ -12,9 +12,10 @@ const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
 const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<HttpResponse<GithubUser[] | null>>
+  res: NextApiResponse<HttpResponse<GithubUser[]>>
 ) => {
   const METHOD_GET = 'GET';
+
   if (req.method !== METHOD_GET) {
     res.setHeader('Allow', [METHOD_GET]);
     return res.status(405).json({
@@ -27,13 +28,25 @@ const handler = async (
   }
 
   try {
-    const { data } = await axiosAdapter.get(GITHUB_USERS_URL, {
+    const {
+      data: rawData,
+      status: fetchStatus,
+      error,
+    } = await axiosAdapter.get<GithubUser[]>(GITHUB_USERS_URL, {
       headers: {
         Authorization: `Bearer ${GITHUB_TOKEN}`,
       },
     });
 
-    const validatedData = GithubUserArraySchema.parse(data);
+    if (error) {
+      return res.status(fetchStatus).json({
+        data: null,
+        status: fetchStatus,
+        error,
+      });
+    }
+
+    const validatedData = GithubUserArraySchema.parse(rawData);
 
     return res.status(200).json({
       data: validatedData,
@@ -47,6 +60,7 @@ const handler = async (
     });
 
     const statusCode = serializableError.status ?? 500;
+
     return res.status(statusCode).json({
       data: null,
       status: statusCode,
