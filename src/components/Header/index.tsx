@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const handleSearch = async () => {
     if (query.length > 2) {
       const { data } = await searchUsers(query);
-      setUsers(data);
+      setUsers(data || []);
     } else if (query.length === 0) {
       setUsers([]);
     }

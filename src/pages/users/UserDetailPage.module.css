@@ -11,112 +11,6 @@
     background-color: var(--color-background, #f8f9fa);
 }
 
-.userDetailPage__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 400px;
-    padding: 40px;
-    margin: auto;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.userDetailPage__container:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.userDetailPage__avatar {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-}
-
-.userDetailPage__username {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 10px 0;
-    color: var(--color-primary);
-}
-
-.userDetailPage__info {
-    font-size: 16px;
-    color: var(--color-secondary, #555);
-    margin: 5px 0;
-}
-
-.userDetailPage__link {
-    color: var(--color-primary);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.userDetailPage__link:hover {
-    text-decoration: underline;
-}
-
-.userDetailPage__loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: var(--font-size-base);
-}
-
-.userDetailPage__error {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: var(--spacing-medium);
-    text-align: center;
-    background-color: var(--color-error);
-    color: black;
-}
-
-.userDetailPage__errorTitle {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: var(--spacing-small);
-}
-
-.userDetailPage__errorMessage {
-    font-size: var(--font-size-base);
-}
-
-.userDetailPage__favoriteButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #f4f4f4;
-    color: #333;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.userDetailPage__favoriteButton:hover {
-    background-color: #ddd;
-    border-color: #aaa;
-}
-
-.userDetailPage__favoriteButton.favorite {
-    background-color: #ffcccc;
-    color: #cc0000;
-    border-color: #cc0000;
-}
-
-.userDetailPage__favoriteButton.favorite:hover {
-    background-color: #ff9999;
-    border-color: #990000;
-}
-
 .userDetailPage__backButton {
     padding: 10px 20px;
     font-size: 16px;
@@ -137,7 +31,6 @@
 .userDetailPage__backButton:active {
     transform: scale(1);
 }
-
 .userDetailPage__top {
     display: flex;
     justify-content: space-between;
@@ -154,3 +47,60 @@
     text-align: center;
     flex-grow: 1;
 }
+.userDetailPage__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    padding: 20px;
+    margin: auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.userDetailPage__container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.userDetailPage__favoriteButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f4f4f4;
+    color: #333;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+}
+
+.userDetailPage__favoriteButton:hover {
+    background-color: #ddd;
+    border-color: #aaa;
+}
+
+.userDetailPage__favoriteButton.favorite {
+    background-color: #ffcccc;
+    color: #cc0000;
+    border-color: #cc0000;
+}
+
+.userDetailPage__favoriteButton.favorite:hover {
+    background-color: #ff9999;
+    border-color: #990000;
+}
+
+.userDetailPage__repos {
+    margin-top: 10px;
+}
+
+
+.userDetailPage__repos ul {
+    list-style: none;
+    padding: 0;
+}
+

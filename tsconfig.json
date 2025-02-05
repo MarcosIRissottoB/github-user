@@ -15,7 +15,8 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
     "types": [
       "jest",
       "@testing-library/jest-dom"
@@ -32,7 +33,5 @@
     "**/*.ts",
     "**/*.tsx"
   ],
-  "exclude": [
-    "  \"exclude\": [\"node_modules\", \".next\"]\n"
-  ]
+  "exclude": ["node_modules", ".next"]
 }

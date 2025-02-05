@@ -33,12 +33,14 @@ describe('UserDetailPage Component', () => {
   });
 
   it('debe mostrar un mensaje de error si los datos contienen un error', () => {
-    const errorMessage = 'Hubo un problema al cargar los datos del usuario';
+    const errorMessage = {
+      message: 'Hubo un problema al cargar los datos del usuario',
+    };
 
     render(<UserDetailPage user={null} repos={[]} error={errorMessage} />);
 
     expect(screen.getByText(/oops, ocurrió un error/i)).toBeInTheDocument();
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    expect(screen.getByText(errorMessage.message)).toBeInTheDocument();
   });
 
   it('debe mostrar un mensaje cuando no hay repositorios disponibles', () => {
