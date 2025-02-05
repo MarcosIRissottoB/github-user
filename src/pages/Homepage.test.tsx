@@ -3,16 +3,15 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import HomePage from '@/pages/index';
 import { useUsers } from '@/context/UsersContext';
-import useFetchUsers from '../hooks/useFetchUsers';
+import useFetchUsers from '@/hooks/useFetchUsers';
 import '@testing-library/jest-dom';
 import { mockGithubUser } from '@/mocks/mockGithubUser';
-import type { GithubUser } from '@/types/github';
 
 jest.mock('@/context/UsersContext', () => ({
   useUsers: jest.fn(),
 }));
 
-jest.mock('../hooks/useFetchUsers', () => jest.fn());
+jest.mock('@/hooks/useFetchUsers', () => jest.fn());
 
 describe('HomePage Component', () => {
   let favoritesMock: Set<number>;

@@ -1,0 +1,12 @@
+.userList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    list-style: none;
+    justify-items: center;
+}
+
+.userList__emptyMessage {
+    margin: 20px;
+    font-size: 18px;
+    color: var(--color-secondary);
+}

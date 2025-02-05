@@ -5,13 +5,15 @@ import { GithubRepo, GithubUser } from '@/types/github';
 import styles from './UserDetailPage.module.css';
 import createGitHubService from '@/services/githubService';
 import axiosAdapter from '@/http/axiosAdapter';
-import { handleError } from '@/utils/errorHandler';
+import { handleError } from '@/errors/handleError';
 import { useUsers } from '@/context/UsersContext';
+import Error from '@/components/Error';
+import Card from '@/components/Card';
 
 type UserDetailPageProps = {
   user: GithubUser | null;
   repos: GithubRepo[] | [];
-  error?: string | null;
+  error?: { message: string } | null;
 };
 
 const UserDetailPage: React.FC<UserDetailPageProps> = ({
@@ -25,16 +27,17 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
     window.history.back();
   };
 
-  const currentDate = new Date().toLocaleDateString();
-
   if (error) {
     return (
-      <div className={styles.userDetailPage__error}>
-        <h2 className={styles.userDetailPage__errorTitle}>
-          Oops, ocurrió un error
-        </h2>
-        <p className={styles.userDetailPage__errorMessage}>{error}</p>
-      </div>
+      <Error
+        title="Oops, ocurrió un error"
+        message={
+          error.message ||
+          'Por favor, verifica los datos o inténtalo más tarde.'
+        }
+        onRetry={handleBack}
+        retryLabel="Volver"
+      />
     );
   }
 
@@ -56,41 +59,35 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
           Volver
         </button>
         <h1 className={styles.userDetailPage__header}>Detalle del Usuario</h1>
-        <div></div>
       </div>
       <div className={styles.userDetailPage__container}>
-        <div className={styles.userDetailPage__profile}>
-          <Image
-            src={user.avatar_url}
-            alt={user.login}
-            className={styles.userDetailPage__avatar}
-            width={100}
-            height={100}
-          />
-          <h1 className={styles.userDetailPage__username}>{user.login}</h1>
-          <p className={styles.userDetailPage__info}>ID: {user.id}</p>
-          <button
-            className={`${styles.userDetailPage__favoriteButton} ${
-              favorites.has(user.id) ? styles.favorite : ''
-            }`}
-            onClick={() => toggleFavorite(user.id)}
-          >
-            {favorites.has(user.id)
-              ? '❤️ Quitar Favorito'
-              : '🤍 Agregar Favorito'}
-          </button>
-        </div>
+        <Card>
+          <Card.Image src={user.avatar_url} alt={user.login} />
+          <Card.Title>{user.login}</Card.Title>
+          <Card.Actions>
+            <button
+              className={`${styles.userDetailPage__favoriteButton} ${
+                favorites.has(user.id) ? styles.favorite : ''
+              }`}
+              onClick={() => toggleFavorite(user.id)}
+            >
+              {favorites.has(user.id)
+                ? '❤️ Quitar de favoritos'
+                : '🤍 Agregar a favoritos'}
+            </button>
+          </Card.Actions>
+        </Card>
         {repos && repos.length > 0 ? (
           <div className={styles.userDetailPage__repos}>
             <h2>Repositorio(s):</h2>
             <ul>
               {repos.map((repo) => (
-                <li key={repo.id}>{repo.name}</li>
+                <li key={repo.id}>* {repo.name}</li>
               ))}
             </ul>
           </div>
         ) : (
-          <div>No hay repositorios.</div>
+          <div>No hay repositorios disponibles.</div>
         )}
       </div>
     </div>
@@ -125,13 +122,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const serializableError = handleError(error, {
       validationMessage: 'Los datos del usuario no son válidos.',
       genericMessage: 'Hubo un problema al obtener los datos del usuario.',
+      unknownMessage: 'Ha ocurrido un error inesperado al obtener el usuario.',
     });
 
     return {
       props: {
         user: null,
         repos: [],
-        error: serializableError.message,
+        error: serializableError,
       },
     };
   }
