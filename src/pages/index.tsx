@@ -3,7 +3,7 @@ import useFetchUsers from '@/hooks/useFetchUsers';
 import styles from './HomePage.module.css';
 import { useUsers } from '@/context/UsersContext';
 import UserList from '@/components/UserList';
-import Header from '@/components/header';
+import Header from '../components/Header';
 import CustomError from '@/components/Error';
 
 const HomePage: React.FC = () => {
