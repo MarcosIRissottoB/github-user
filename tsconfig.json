@@ -12,13 +12,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "types": ["jest", "@testing-library/jest-dom"],
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.setup.ts"],
   "exclude": ["node_modules", ".next"]
 }
