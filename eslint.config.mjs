@@ -39,6 +39,6 @@ export default [
       'prefer-const': 'warn',
       'no-debugger': 'error',
     },
-    ignores: ['node_modules/', '.next/', 'dist/'],
+    ignores: ['node_modules/', '.next/', 'dist/', '__tests__/'],
   },
 ];

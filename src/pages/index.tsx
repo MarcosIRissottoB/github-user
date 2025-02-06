@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import useFetchUsers from '@/hooks/useFetchUsers';
 import styles from './HomePage.module.css';
 import { useUsers } from '@/context/UsersContext';
-import Error from '@/components/Error';
 import UserList from '@/components/UserList';
 import Header from '@/components/header';
+import CustomError from '@/components/Error';
 
 const HomePage: React.FC = () => {
   const { users, setUsers, favorites, toggleFavorite } = useUsers();
@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
 
   if (error) {
     return (
-      <Error
+      <CustomError
         title="Oops, ocurrió un error"
         message={
           error || 'Por favor, verifica los datos o inténtalo más tarde.'

@@ -19,6 +19,7 @@ Antes de comenzar, asegúrate de que tu entorno cumple con los siguientes requis
 Para configurar el proyecto localmente, sigue estos pasos:
 
 1. **Clona el repositorio**:
+
    ```bash
    git clone https://github.com/MarcosIRissottoB/github-user.git
    cd github-user
@@ -26,11 +27,13 @@ Para configurar el proyecto localmente, sigue estos pasos:
 
 2. **Instala las dependencias**:  
    Ejecuta el siguiente comando para instalar todas las dependencias necesarias:
+
    ```bash
    npm install
    ```
 
 3. **Ejecuta el entorno de desarrollo**:
+
    ```bash
    npm run dev
    ```
@@ -42,15 +45,18 @@ Para configurar el proyecto localmente, sigue estos pasos:
 ## **Cómo usar las funcionalidades**
 
 ### **Buscar un usuario**
+
 1. Ingresa el nombre de usuario en el formulario de búsqueda.
 2. Presiona el botón de búsqueda para obtener toda la información disponible de ese usuario.
 
 ### **Ver detalles del usuario**
+
 - Haz clic en el nombre de usuario para visualizar información adicional como:
-    - Avatar
-    - Repositorios públicos
+  - Avatar
+  - Repositorios públicos
 
 ### **Explorar repositorios**
+
 - Una vez dentro del perfil del usuario, se muestran todos sus repositorios públicos con enlaces directos a Github.
 
 ---
@@ -60,23 +66,26 @@ Para configurar el proyecto localmente, sigue estos pasos:
 Este proyecto utiliza las siguientes tecnologías y bibliotecas:
 
 - **Frontend:**}
-    - [Next.js](https://nextjs.org/) (v15.1.6)
-    - Typescript https://www.typescriptlang.org/
-    - Etc.
+  - [Next.js](https://nextjs.org/) (v15.1.6)
+  - Typescript https://www.typescriptlang.org/
+  - Etc.
 - **Estilo y diseño:**
-    - CSS Modules
+
+  - CSS Modules
 
 - **Testing:**
-    - [Jest](https://jestjs.io/) (v29.7)
-    - [Testing Library](https://testing-library.com/) (React, DOM, y User Event)
+
+  - [Jest](https://jestjs.io/) (v29.7)
+  - [Testing Library](https://testing-library.com/) (React, DOM, y User Event)
 
 - **Linter y formato:**
-    - ESLint
-    - Prettier
-    - Husky y lint-staged
+
+  - ESLint
+  - Prettier
+  - Husky y lint-staged
 
 - **Backend (API Consumption):**
-    - [Axios](https://axios-http.com/) (para solicitudes HTTP).
+  - [Axios](https://axios-http.com/) (para solicitudes HTTP).
 
 ---
 
@@ -103,6 +112,7 @@ src/
 ## **Pruebas y calidad de código**
 
 ### Ejecutar los linters y formateadores:
+
 ```bash
 npm run lint
 npm run lint:fix
@@ -110,9 +120,11 @@ npm run format
 ```
 
 ### Ejecutar las pruebas:
+
 ```bash
 npm run test
 ```
+
 Esto ejecuta todas las pruebas configuradas con **Jest** y Testing Library.
 
 ---
@@ -125,4 +137,4 @@ Este proyecto está abierto a contribuciones. Si deseas colaborar, crea un pull 
 
 ## **Licencia**
 
-Este proyecto se encuentra bajo la licencia [MIT](https://opensource.org/licenses/MIT). 
+Este proyecto se encuentra bajo la licencia [MIT](https://opensource.org/licenses/MIT).

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import HomePage from '@/pages/index';
+import HomePage from '@/pages';
 import { useUsers } from '@/context/UsersContext';
 import useFetchUsers from '@/hooks/useFetchUsers';
 import '@testing-library/jest-dom';

@@ -1,106 +1,124 @@
 .userDetailPage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    padding: 20px;
-    font-family: var(--font-family, Arial, sans-serif);
-    text-align: center;
-    color: var(--color-primary);
-    background-color: var(--color-background, #f8f9fa);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+  font-family: var(--font-family, Arial, sans-serif);
+  text-align: center;
+  color: var(--color-primary);
+  background-color: var(--color-background, #f8f9fa);
 }
 
+.userDetailPage__noUser {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  font-family: var(--font-family, Arial, sans-serif);
+  text-align: center;
+  color: var(--color-primary, #333);
+  font-size: 24px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.userDetailPage__noUser button {
+  margin-top: 20px;
+}
 .userDetailPage__backButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: var(--color-primary, #007bff);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: var(--color-primary, #007bff);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .userDetailPage__backButton:hover {
-    background-color: var(--color-primary-hover, #0056b3);
-    transform: scale(1.05);
+  background-color: var(--color-primary-hover, #0056b3);
+  transform: scale(1.05);
 }
 
 .userDetailPage__backButton:active {
-    transform: scale(1);
+  transform: scale(1);
 }
 .userDetailPage__top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 10px 20px;
-    background-color: var(--color-background, #f8f9fa);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: var(--color-background, #f8f9fa);
 }
 
 .userDetailPage__header {
-    margin: 0;
-    font-size: 24px;
-    color: var(--color-primary);
-    text-align: center;
-    flex-grow: 1;
+  margin: 0;
+  font-size: 24px;
+  color: var(--color-primary);
+  text-align: center;
+  flex-grow: 1;
 }
 .userDetailPage__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 300px;
-    padding: 20px;
-    margin: auto;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 300px;
+  padding: 20px;
+  margin: auto;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .userDetailPage__container:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .userDetailPage__favoriteButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #f4f4f4;
-    color: #333;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #f4f4f4;
+  color: #333;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .userDetailPage__favoriteButton:hover {
-    background-color: #ddd;
-    border-color: #aaa;
+  background-color: #ddd;
+  border-color: #aaa;
 }
 
 .userDetailPage__favoriteButton.favorite {
-    background-color: #ffcccc;
-    color: #cc0000;
-    border-color: #cc0000;
+  background-color: #ffcccc;
+  color: #cc0000;
+  border-color: #cc0000;
 }
 
 .userDetailPage__favoriteButton.favorite:hover {
-    background-color: #ff9999;
-    border-color: #990000;
+  background-color: #ff9999;
+  border-color: #990000;
 }
 
 .userDetailPage__repos {
-    margin-top: 10px;
+  margin-top: 10px;
 }
-
 
 .userDetailPage__repos ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
-

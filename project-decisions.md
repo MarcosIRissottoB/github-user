@@ -7,16 +7,20 @@ Este documento detalla las decisiones técnicas y de arquitectura tomadas durant
 ## **Decisiones tomadas**
 
 1. **Uso de Next.js**
-  - Se seleccionó Next.js para aprovechar su optimización de rendimiento, generación de rutas automáticas y capacidad de SSR/SSG. Esto le brindó flexibilidad al proyecto para adaptarse a distintos casos de uso.
+
+- Se seleccionó Next.js para aprovechar su optimización de rendimiento, generación de rutas automáticas y capacidad de SSR/SSG. Esto le brindó flexibilidad al proyecto para adaptarse a distintos casos de uso.
 
 2. **Tecnologías de pruebas**
-  - Se eligieron **Jest** y **Testing Library** por su simplicidad y soporte activo para pruebas de React. Estas herramientas facilitaron la validación de los componentes y el comportamiento del usuario.
+
+- Se eligieron **Jest** y **Testing Library** por su simplicidad y soporte activo para pruebas de React. Estas herramientas facilitaron la validación de los componentes y el comportamiento del usuario.
 
 3. **Uso de Axios**
-  - En lugar de `fetch`, se decidió usar **Axios** por su manejo más ordenado y su soporte para interceptores, lo cual simplificó la gestión de errores y escalabilidad de las solicitudes HTTP.
+
+- En lugar de `fetch`, se decidió usar **Axios** por su manejo más ordenado y su soporte para interceptores, lo cual simplificó la gestión de errores y escalabilidad de las solicitudes HTTP.
 
 4. **Integración de ESLint y Prettier**
-  - Se configuraron ESLint y Prettier para mantener uniformidad del código, prevenir errores y mejorar el formato automáticamente durante el flujo de trabajo.
+
+- Se configuraron ESLint y Prettier para mantener uniformidad del código, prevenir errores y mejorar el formato automáticamente durante el flujo de trabajo.
 
 ---
 
@@ -65,7 +69,8 @@ Este documento detalla las decisiones técnicas y de arquitectura tomadas durant
 - Para evitar strings mágicos, se definieron constantes reutilizables:
 
   ```typescript
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.github.com';
+  const API_BASE_URL =
+    process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.github.com';
   const ENDPOINT_USERS = '/users';
   ```
 
@@ -80,6 +85,7 @@ Este documento detalla las decisiones técnicas y de arquitectura tomadas durant
 ## **Lógica de Favoritos**
 
 - Implementación inicial:
+
   - Los favoritos se gestionaron mediante un array en el estado de los componentes.
   - Se habilitó un botón que permitía agregar y eliminar usuarios de favoritos.
 
