@@ -6,7 +6,7 @@ import { HttpResponse } from '@/http/httpClient';
 import { GithubUser } from '@/types/github';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-const USERS_ENDPOINT = '/users';
+const USERS_ENDPOINT = process.env.NEXT_PUBLIC_USERS_ENDPOINT || '';
 const GITHUB_USERS_URL = `${API_BASE_URL}${USERS_ENDPOINT}`;
 const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 
