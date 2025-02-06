@@ -105,7 +105,7 @@ Este documento detalla las decisiones técnicas y de arquitectura tomadas durant
 
 - Página inicial `/`:
   - Muestra una lista de usuarios con su información básica. La página utiliza CSR.
-- Página de detalle `/user/[id]`:
+- Página de detalle `/users/[id]`:
   - Esta página muestra información ampliada de un usuario específico, como el avatar, repositorios y seguidores. Utiliza SSR.
 
 ---
