@@ -1,13 +1,12 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import Image from 'next/image';
 import { GithubRepo, GithubUser } from '@/types/github';
 import styles from './UserDetailPage.module.css';
 import createGitHubService from '@/services/githubService';
 import axiosAdapter from '@/http/axiosAdapter';
 import { handleError } from '@/errors/handleError';
 import { useUsers } from '@/context/UsersContext';
-import Error from '@/components/Error';
+import CustomError from '@/components/Error';
 import Card from '@/components/Card';
 
 type UserDetailPageProps = {
@@ -29,7 +28,7 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
 
   if (error) {
     return (
-      <Error
+      <CustomError
         title="Oops, ocurrió un error"
         message={
           error.message ||
@@ -45,6 +44,12 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
     return (
       <div className={styles.userDetailPage__noUser}>
         <h2>No se encontró el usuario.</h2>
+        <button
+          onClick={handleBack}
+          className={styles.userDetailPage__backButton}
+        >
+          Volver
+        </button>
       </div>
     );
   }

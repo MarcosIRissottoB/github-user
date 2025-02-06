@@ -8,7 +8,7 @@ interface ErrorProps {
   retryLabel?: string;
 }
 
-const Error: React.FC<ErrorProps> = ({
+const CustomError: React.FC<ErrorProps> = ({
   title = 'Oops, ocurrió un error',
   message = 'Por favor, verifica los datos o inténtalo más tarde.',
   onRetry,
@@ -27,4 +27,4 @@ const Error: React.FC<ErrorProps> = ({
   );
 };
 
-export default Error;
+export default CustomError;
