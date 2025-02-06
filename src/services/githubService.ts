@@ -28,13 +28,28 @@ export const API_ROUTES = {
 
 const createGitHubService = (httpClient: HttpClient) => {
   const fetchUsers = async (): Promise<HttpResponse<GithubUser[]>> => {
-    return await httpClient.get<GithubUser[]>(API_ROUTES.USERS);
+    const { data, status, error } = await httpClient.get<{
+      data: GithubUser[];
+    }>(API_ROUTES.USERS);
+
+    return {
+      data: data?.data || [],
+      status,
+      error: error || null,
+    };
   };
 
   const searchUsers = async (
     term: string
   ): Promise<HttpResponse<GithubUser[]>> => {
-    return await httpClient.get<GithubUser[]>(API_ROUTES.SEARCH_USERS(term));
+    const { data, status, error } = await httpClient.get<{
+      data: GithubUser[];
+    }>(API_ROUTES.SEARCH_USERS(term));
+    return {
+      data: data?.data || [],
+      status,
+      error: error || null,
+    };
   };
 
   const fetchUserDetails = async (

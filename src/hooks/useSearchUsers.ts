@@ -4,54 +4,32 @@ import axiosAdapter from '@/http/axiosAdapter';
 import { GithubUser } from '@/types/github';
 import { HttpResponse } from '@/http/httpClient';
 
+const githubService = createGitHubService(axiosAdapter);
+
+interface UseSearchUsersResult {
+  data: GithubUser[] | null;
+}
+
 const useSearchUsers = () => {
-  const [users, setUsers] = useState<GithubUser[] | []>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const githubService = createGitHubService(axiosAdapter);
-
-  const searchUsers = async (
-    term: string
-  ): Promise<HttpResponse<GithubUser[] | []>> => {
+  const searchUsers = async (term: string): Promise<UseSearchUsersResult> => {
     setIsLoading(true);
     setError(null);
 
-    try {
-      const result: HttpResponse<GithubUser[] | []> =
-        await githubService.searchUsers(term);
-      if (result.status === 200) {
-        setUsers(result.data || []);
-        return {
-          data: result.data || [],
-          status: 200,
-          error: null,
-        };
-      } else {
-        setUsers([]);
-        setError(result.error?.message || 'No se encontró un usuario.');
-        return result;
-      }
-    } catch (err) {
-      let errorMessage = 'Error desconocido';
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      }
-      setError(errorMessage);
+    const { data, error }: HttpResponse<GithubUser[]> =
+      await githubService.searchUsers(term);
 
-      return {
-        data: [],
-        status: 500,
-        error: {
-          message: `Failed to search users with term '${term}'`,
-        },
-      };
-    } finally {
-      setIsLoading(false);
-    }
+    setError(error?.message || null);
+    setIsLoading(false);
+    return { data };
   };
-
-  return { searchUsers, isLoading, error };
+  return {
+    searchUsers,
+    isLoading,
+    error,
+  };
 };
 
 export default useSearchUsers;

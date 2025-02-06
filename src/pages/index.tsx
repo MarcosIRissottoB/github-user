@@ -8,13 +8,17 @@ import Header from '@/components/header';
 
 const HomePage: React.FC = () => {
   const { users, setUsers, favorites, toggleFavorite } = useUsers();
-  const { data: response, isLoading, error } = useFetchUsers();
+  const { data, isLoading, error } = useFetchUsers();
 
   useEffect(() => {
-    if (response?.data && response.data.length > 0 && users !== response.data) {
-      setUsers(response.data);
+    if (users.length > 0) {
+      return;
     }
-  }, [response, users, setUsers]);
+
+    if (data && data.length > 0) {
+      setUsers(data);
+    }
+  }, [users, data, setUsers]);
 
   const handleBack = () => {
     setUsers([]);
