@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from './Header.module.css';
 import useSearchUsers from '@/hooks/useSearchUsers';
 import { useUsers } from '@/context/UsersContext';
-import Search from '@/components/search';
+import Search from '../Search';
 
 const Header: React.FC = () => {
   const [query, setQuery] = useState('');
