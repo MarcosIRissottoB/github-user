@@ -4,7 +4,6 @@ import '@testing-library/jest-dom';
 import UserDetailPage from '@/pages/users/[username]';
 import { useUsers } from '@/context/UsersContext';
 import { mockGithubUser } from '@/mocks/mockGithubUser';
-import { mockGithubRepos } from '@/mocks/mockGithubRepos';
 
 jest.mock('@/context/UsersContext', () => ({
   useUsers: jest.fn(),
