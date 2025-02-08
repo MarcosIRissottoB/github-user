@@ -16,9 +16,9 @@ export default {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  testPathIgnorePatterns: ['/node_modules/(?!(specific-esm-package)/)'],
+  testPathIgnorePatterns: ['/node_modules/', '.next/'],
   transformIgnorePatterns: [
-    '/node_modules/(?!(module-to-be-transformed|another-module)/)',
+    '/node_modules/(?!.*\\.mjs$)',
   ],
   resolver: undefined,
 };
