@@ -1,7 +1,7 @@
-import axiosAdapter from '@/http/axiosAdapter';
 import { GithubRepoArraySchema } from '@/schemas/github';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { handleError } from '@/errors/handleError';
+import httpAdapter from '@/http/httpAdapter';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 const USERS_ENDPOINT = process.env.NEXT_PUBLIC_USERS_ENDPOINT || '';
@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-      const response = await axiosAdapter.get(
+      const response = await httpAdapter.get(
         `${GITHUB_USERS_URL}/${username}${REPOSITORIES_ENDPOINT}?per_page=${perPage}&page=${page}`,
         {
           headers: {

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import createGitHubService from '@/services/githubService';
-import axiosAdapter from '@/http/axiosAdapter';
+import httpAdapter from '@/http/httpAdapter';
 import { GithubUser } from '@/types/github';
 import { HttpResponse } from '@/http/httpClient';
 
-const githubService = createGitHubService(axiosAdapter);
+const githubService = createGitHubService(httpAdapter);
 
 interface UseSearchUsersResult {
   data: GithubUser[] | null;
