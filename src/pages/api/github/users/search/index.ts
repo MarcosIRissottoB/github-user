@@ -1,9 +1,9 @@
 import { handleError } from '@/errors/handleError';
-import axiosAdapter from '@/http/axiosAdapter';
 import { GithubUserArraySchema } from '@/schemas/github';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { GithubSearchUsersResponse, GithubUser } from '@/types/github';
 import { HttpResponse } from '@/http/httpClient';
+import httpAdapter from '@/http/httpAdapter';
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.github.com';
@@ -41,7 +41,7 @@ const handler = async (
 
   try {
     const { data, status, error } =
-      await axiosAdapter.get<GithubSearchUsersResponse>(
+      await httpAdapter.get<GithubSearchUsersResponse>(
         `${API_BASE_URL}${SEARCH_ENDPOINT}${USERS_ENDPOINT}`,
         {
           params: { q },

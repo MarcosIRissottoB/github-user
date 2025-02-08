@@ -22,7 +22,6 @@ const HomePage: React.FC = () => {
 
   const handleBack = () => {
     setUsers([]);
-    window.location.reload();
   };
 
   if (isLoading) {
