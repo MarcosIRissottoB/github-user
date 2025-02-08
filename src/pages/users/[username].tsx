@@ -3,11 +3,11 @@ import { GetServerSideProps } from 'next';
 import { GithubRepo, GithubUser } from '@/types/github';
 import styles from './UserDetailPage.module.css';
 import createGitHubService from '@/services/githubService';
-import axiosAdapter from '@/http/axiosAdapter';
 import { handleError } from '@/errors/handleError';
 import { useUsers } from '@/context/UsersContext';
 import CustomError from '@/components/Error';
 import Card from '@/components/Card';
+import httpAdapter from '@/http/httpAdapter';
 
 type UserDetailPageProps = {
   user: GithubUser | null;
@@ -101,7 +101,7 @@ const UserDetailPage: React.FC<UserDetailPageProps> = ({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { username } = context.query;
-  const githubService = createGitHubService(axiosAdapter);
+  const githubService = createGitHubService(httpAdapter);
 
   if (!username || typeof username !== 'string') {
     return {
