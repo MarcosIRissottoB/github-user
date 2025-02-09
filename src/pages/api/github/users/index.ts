@@ -1,9 +1,9 @@
 import { handleError } from '@/errors/handleError';
-import axiosAdapter from '@/http/axiosAdapter';
 import { GithubUserArraySchema } from '@/schemas/github';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { HttpResponse } from '@/http/httpClient';
 import { GithubUser } from '@/types/github';
+import httpAdapter from '@/http/httpAdapter';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 const USERS_ENDPOINT = process.env.NEXT_PUBLIC_USERS_ENDPOINT || '';
@@ -32,7 +32,7 @@ const handler = async (
       data: rawData,
       status: fetchStatus,
       error,
-    } = await axiosAdapter.get<GithubUser[]>(GITHUB_USERS_URL, {
+    } = await httpAdapter.get<GithubUser[]>(GITHUB_USERS_URL, {
       headers: {
         Authorization: `Bearer ${GITHUB_TOKEN}`,
       },

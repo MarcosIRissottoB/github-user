@@ -1,5 +1,5 @@
 export default {
-  preset: 'ts-jest/presets/default-esm',
+  preset: 'ts-jest/presets/js-with-ts-esm',
   testEnvironment: 'jest-environment-jsdom',
   transform: {
     '^.+\\.[tj]sx?$': [
@@ -18,7 +18,6 @@ export default {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testPathIgnorePatterns: ['/node_modules/', '.next/'],
   transformIgnorePatterns: [
-    '/node_modules/(?!.*\\.mjs$)',
+    'node_modules/(?!(axios|other-esm-package)/)',
   ],
-  resolver: undefined,
 };
